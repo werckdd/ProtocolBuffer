@@ -60,7 +60,7 @@ func add(text string) error {
 		return fmt.Errorf("could not encode length of message %s", err)
 	}
 
-	_, err = f.Write(b)
+	 _, err = f.Write(b)
 	if err != nil {
 		return fmt.Errorf("could not write task to file: %v",err)
 	}
@@ -75,6 +75,7 @@ func add(text string) error {
 
 func list() error {
 	b, err := ioutil.ReadFile(dbPath)
+	fmt.Printf("len %d: %v",len(b), b)
 	if err != nil {
 		return fmt.Errorf("could not read %s: %v", dbPath, err)
 	}
@@ -87,7 +88,7 @@ func list() error {
 		}
 
 		var length int64
-		if err := gob.NewDecoder(bytes.NewReader(b[:4])); err != nil {
+		if err := gob.NewDecoder(bytes.NewReader(b[:4])).Decode(&length); err != nil {
 			return fmt.Errorf("cound not decode message length: %v", err)
 		}
 		b = b[4:]
